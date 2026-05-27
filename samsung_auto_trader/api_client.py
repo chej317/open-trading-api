@@ -1,0 +1,55 @@
+import time
+import requests
+from .config import APP_KEY, APP_SECRET, BASE_URL
+from .logger import logger
+
+class KISClient:
+    def __init__(self, access_token):
+        self.access_token = access_token
+        self.last_call_time = 0
+
+    def _get_headers(self, tr_id, tr_cont=""):
+        headers = {
+            "Content-Type": "application/json",
+            "authorization": f"Bearer {self.access_token}",
+            "appkey": APP_KEY,
+            "appsecret": APP_SECRET,
+            "tr_id": tr_id,
+            "tr_cont": tr_cont,
+            "custtype": "P", # 개인
+        }
+        return headers
+
+    def _wait_for_rate_limit(self):
+        # 모의투자 기준 1초당 2건 제한이 있는 경우가 많으므로 0.5초 대기
+        now = time.time()
+        elapsed = now - self.last_call_time
+        if elapsed < 0.5:
+            time.sleep(0.5 - elapsed)
+        self.last_call_time = time.time()
+
+    def get(self, url, tr_id, params=None):
+        self._wait_for_rate_limit()
+        headers = self._get_headers(tr_id)
+        try:
+            res = requests.get(f"{BASE_URL}{url}", headers=headers, params=params)
+            res.raise_for_status()
+            return res.json()
+        except Exception as e:
+            logger.error(f"GET 요청 실패 ({tr_id}): {e}")
+            if hasattr(e, 'response') and e.response is not None:
+                logger.error(f"상세 에러: {e.response.text}")
+            return None
+
+    def post(self, url, tr_id, data=None):
+        self._wait_for_rate_limit()
+        headers = self._get_headers(tr_id)
+        try:
+            res = requests.post(f"{BASE_URL}{url}", headers=headers, json=data)
+            res.raise_for_status()
+            return res.json()
+        except Exception as e:
+            logger.error(f"POST 요청 실패 ({tr_id}): {e}")
+            if hasattr(e, 'response') and e.response is not None:
+                logger.error(f"상세 에러: {e.response.text}")
+            return None

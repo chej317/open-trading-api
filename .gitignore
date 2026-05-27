@@ -156,6 +156,9 @@ yarn-error.log*
 KIS/
 .master/
 .kis_token*.json
+token_cache.json
+trade_state.json
+**/trade_state.json
 
 # ===== Lean workspace =====
 .lean-workspace/
