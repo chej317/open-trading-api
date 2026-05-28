@@ -32,7 +32,7 @@ class KISClient:
         self._wait_for_rate_limit()
         headers = self._get_headers(tr_id)
         try:
-            res = requests.get(f"{BASE_URL}{url}", headers=headers, params=params)
+            res = requests.get(f"{BASE_URL}{url}", headers=headers, params=params, timeout=10)
             res.raise_for_status()
             return res.json()
         except Exception as e:
@@ -45,7 +45,7 @@ class KISClient:
         self._wait_for_rate_limit()
         headers = self._get_headers(tr_id)
         try:
-            res = requests.post(f"{BASE_URL}{url}", headers=headers, json=data)
+            res = requests.post(f"{BASE_URL}{url}", headers=headers, json=data, timeout=10)
             res.raise_for_status()
             return res.json()
         except Exception as e:
