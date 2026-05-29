@@ -49,11 +49,13 @@ def run_trading_loop(client):
             current_qty = adapted.get("quantity") or 1
 
             # 2. 현재가 및 잔고 확인
-            current_price = get_current_price(client, SYMBOL)
-            if not current_price:
+            price_data = get_current_price(client, SYMBOL)
+            if not price_data:
                 logger.warning(f"[{SYMBOL}] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.")
                 time.sleep(10)
                 continue
+            
+            current_price = price_data["price"]
             
             # API 호출 간격 조정을 위한 짧은 대기
             time.sleep(1)
@@ -63,6 +65,9 @@ def run_trading_loop(client):
 
             # 미실현 리스크 평가 (손절 및 수익보존)
             risk_action = evaluate_unrealized_risk(current_price, avg_price, hldg_qty)
+
+            # 자가 적응형 전략 평가 및 수정 (Proactive: 미실현 손익 및 시장 상황 반영)
+            evaluate_and_adapt(price_data=price_data)
 
             # 3. 매매 판단 (상태 기반)
             if hldg_qty == 0:

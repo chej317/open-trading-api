@@ -56,7 +56,8 @@ def load_state():
                 "performance": {"total_pnl": 0, "win_rate": 0, "trades_count": 0},
                 "adapted_params": {"buy_offset": None, "sell_offset": None, "polling_interval": None, "quantity": 1},
                 "session_metrics": {"recent_high": 0, "daily_open": 0},
-                "unrealized_metrics": {"current_pnl": 0, "current_ratio": 0, "max_ratio": 0}
+                "unrealized_metrics": {"current_pnl": 0, "current_ratio": 0, "max_ratio": 0},
+                "last_adapt_time": None
             }
             for key, val in defaults.items():
                 if key not in state:
@@ -66,7 +67,7 @@ def load_state():
         logger.error(f"상태 로드 중 오류 발생: {e}")
         return None
 
-def update_state(status=None, order_id=None, order_type=None, target_price=None, history_entry=None, performance=None, adapted_params=None, session_metrics=None, unrealized_metrics=None):
+def update_state(status=None, order_id=None, order_type=None, target_price=None, history_entry=None, performance=None, adapted_params=None, session_metrics=None, unrealized_metrics=None, last_adapt_time=None):
     """특정 필드만 업데이트하고 저장"""
     state = load_state()
     if not state:
@@ -81,5 +82,6 @@ def update_state(status=None, order_id=None, order_type=None, target_price=None,
     if adapted_params: state["adapted_params"].update(adapted_params)
     if session_metrics: state["session_metrics"].update(session_metrics)
     if unrealized_metrics: state["unrealized_metrics"].update(unrealized_metrics)
+    if last_adapt_time: state["last_adapt_time"] = last_adapt_time
     
     save_state(state)

@@ -58,15 +58,22 @@ def log_adaptation(reason, old_params, new_params, performance, history):
 
     logger.info(f"자가 최적화 기록 완료: {OPTIMIZATION_DIR}")
 
-def evaluate_and_adapt():
-    """매매 성과를 평가하고 파라미터를 조정"""
+def evaluate_and_adapt(price_data=None):
+    """
+    매매 성과 및 현재 시장 상황을 평가하고 파라미터를 조정 (Proactive Strategy)
+    """
     state = load_state()
     history = state.get("history", [])
     performance = state.get("performance", {})
+    unrealized = state.get("unrealized_metrics", {})
     
-    # 최소 3회 이상의 매매 이력이 있을 때 평가 시작
-    if len(history) < 3:
-        return
+    # 쿨다운 체크 (최소 30분 간격으로만 자동 수정 허용)
+    now = datetime.now()
+    last_adapt_str = state.get("last_adapt_time")
+    if last_adapt_str:
+        last_adapt = datetime.strptime(last_adapt_str, "%Y-%m-%d %H:%M:%S")
+        if (now - last_adapt).total_seconds() < 1800: # 30분
+            return
 
     old_params = state.get("adapted_params", {}).copy()
     # None인 경우 기본값으로 채움
@@ -76,25 +83,49 @@ def evaluate_and_adapt():
     if old_params.get("quantity") is None: old_params["quantity"] = 1
     
     new_params = old_params.copy()
-    reason = "정기 성과 평가 기반 조정"
-    
-    win_rate = performance.get("win_rate", 0)
-    total_pnl = performance.get("total_pnl", 0)
-    
-    # 1. 승률이 높고 수익이 났을 때: 익절 목표가 상향
-    if win_rate > 70 and total_pnl > 0:
-        new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
-        reason = "승률 우수: 익절 목표가 상향 (수익 극대화)"
-    
-    # 2. 손실이 발생했을 때: 더 싸게 사고(BUY_OFFSET 증가), 보수적으로 매도
-    elif total_pnl < 0:
+    reason = ""
+
+    # 1. Proactive: 미실현 손실 기반 리스크 관리 (보유 중일 때)
+    current_ratio = unrealized.get("current_ratio", 0)
+    if current_ratio <= -2.0:
         new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
-        new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
-        reason = "손실 발생: 보수적 대응으로 전환 (매수 타점 하향 및 빠른 익절)"
+        reason = f"미실현 손실 확대({current_ratio}%): 매수 타점 하향 조정"
+
+    # 2. Proactive: 시장 변동성 기반 (현재가 데이터 활용)
+    if not reason and price_data:
+        high, low, current = price_data["high"], price_data["low"], price_data["price"]
+        volatility = (high - low) / current if current > 0 else 0
+        
+        # 변동성이 너무 낮은 경우 (횡보장): 오프셋을 줄여 체결 유도
+        if volatility < 0.01: # 1% 미만
+            new_params["buy_offset"] = max(old_params["buy_offset"] - 500, 1000)
+            new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
+            reason = f"낮은 시장 변동성({volatility:.2%}): 오프셋 축소로 체결 유도"
+        # 변동성이 매우 큰 경우: 오프셋을 늘려 안전하게 대응
+        elif volatility > 0.03: # 3% 초과
+            new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
+            new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
+            reason = f"높은 시장 변동성({volatility:.2%}): 오프셋 확대로 리스크 관리"
+
+    # 3. Reactive: 기존 성과 기반 조정 (최소 3회 매매 시)
+    if not reason and len(history) >= 3:
+        win_rate = performance.get("win_rate", 0)
+        total_pnl = performance.get("total_pnl", 0)
+        
+        if win_rate > 70 and total_pnl > 0:
+            new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
+            reason = "정기 평가(승률 우수): 익절 목표가 상향"
+        elif total_pnl < 0:
+            new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
+            new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
+            reason = "정기 평가(누적 손실): 보수적 대응으로 전환"
 
     # 변경 사항이 있을 경우 저장 및 로깅
-    if new_params != old_params:
-        update_state(adapted_params=new_params)
+    if reason and new_params != old_params:
+        update_state(
+            adapted_params=new_params,
+            last_adapt_time=now.strftime("%Y-%m-%d %H:%M:%S")
+        )
         log_adaptation(reason, old_params, new_params, performance, history)
 
 def evaluate_unrealized_risk(current_price, avg_price, qty):
