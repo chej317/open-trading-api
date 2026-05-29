@@ -154,6 +154,7 @@ yarn-error.log*
 conversation_*.md
 conversation_history_export.md
 log.md
+performance_report_*.md
 self_optimization_history/
 
 # ===== Lock files =====
