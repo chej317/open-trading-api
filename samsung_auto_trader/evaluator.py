@@ -4,37 +4,59 @@ from .state import load_state, update_state
 from .logger import logger
 from .config import BUY_OFFSET, SELL_OFFSET, POLLING_INTERVAL
 
-# 수정 이록 파일 경로
+# 수정 이력 파일 및 최적화 기록 폴더 경로
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_DIR = os.path.join(os.path.dirname(BASE_DIR), "logs")
-HISTORY_FILE = os.path.join(LOG_DIR, "adaptation_history.md")
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+OPTIMIZATION_DIR = os.path.join(PROJECT_ROOT, "self_optimization_history")
 
-def log_adaptation(reason, old_params, new_params, metrics):
-    """전략 수정 이력을 마크다운 파일에 기록"""
-    if not os.path.exists(LOG_DIR):
-        os.makedirs(LOG_DIR)
+def log_adaptation(reason, old_params, new_params, performance, history):
+    """전략 수정 및 성과 리포트를 별도 폴더에 기록"""
+    if not os.path.exists(OPTIMIZATION_DIR):
+        os.makedirs(OPTIMIZATION_DIR)
         
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now_str = datetime.now().strftime("%Y%m%d%H%M")
     
-    header = ""
-    if not os.path.exists(HISTORY_FILE):
-        header = "# 📈 자가 적응형 전략 수정 이력 (Adaptation History)\n\n"
-        
-    entry = f"""
-## [{timestamp}] 전략 수정 발생
-- **사유**: {reason}
-- **성과 지표**: PnL={metrics.get('total_pnl', 0):,}, 승률={metrics.get('win_rate', 0):.1f}%, 총 매매={metrics.get('trades_count', 0)}
-- **파라미터 변경**:
-    - BUY_OFFSET: {old_params.get('buy_offset')} -> {new_params.get('buy_offset')}
-    - SELL_OFFSET: {old_params.get('sell_offset')} -> {new_params.get('sell_offset')}
-    - POLLING: {old_params.get('polling_interval')} -> {new_params.get('polling_interval')}
-    - QTY: {old_params.get('quantity')} -> {new_params.get('quantity')}
----
+    # 1. Performance Report 생성
+    perf_file = os.path.join(OPTIMIZATION_DIR, f"performance_report_{now_str}.md")
+    perf_content = f"""# 📊 Performance Report ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+
+## 📈 성과 요약
+- **총 손익**: {performance.get('total_pnl', 0):,}원
+- **승률**: {performance.get('win_rate', 0):.2f}%
+- **총 거래 횟수**: {performance.get('trades_count', 0)}회
+
+## 📜 최근 거래 이력 (최근 5건)
+| 시간 | 매수가 | 매도가 | 수량 | 손익 |
+| :--- | :--- | :--- | :--- | :--- |
 """
-    with open(HISTORY_FILE, "a", encoding="utf-8") as f:
-        if header: f.write(header)
-        f.write(entry)
-    logger.info(f"전략 수정 이력 기록 완료: {reason}")
+    for entry in history[-5:]:
+        perf_content += f"| {entry['timestamp']} | {entry['buy_price']:,} | {entry['sell_price']:,} | {entry['qty']} | {entry['pnl']:,} |\n"
+
+    with open(perf_file, "w", encoding="utf-8") as f:
+        f.write(perf_content)
+
+    # 2. Code Modification Summary 생성 (파라미터 변경 내역)
+    mod_file = os.path.join(OPTIMIZATION_DIR, f"code_modification_summary_{now_str}.md")
+    mod_content = f"""# 🛠️ Code Modification Summary ({datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+
+## 💡 수정 사유
+- {reason}
+
+## ⚙️ 파라미터 변경 내역
+| 파라미터 | 이전 값 | 변경된 값 |
+| :--- | :--- | :--- |
+| **BUY_OFFSET** | {old_params.get('buy_offset')} | {new_params.get('buy_offset')} |
+| **SELL_OFFSET** | {old_params.get('sell_offset')} | {new_params.get('sell_offset')} |
+| **POLLING_INTERVAL** | {old_params.get('polling_interval')} | {new_params.get('polling_interval')} |
+| **QUANTITY** | {old_params.get('quantity')} | {new_params.get('quantity')} |
+
+---
+*본 수정은 자가 적응형 로직에 의해 자동으로 생성되었습니다.*
+"""
+    with open(mod_file, "w", encoding="utf-8") as f:
+        f.write(mod_content)
+
+    logger.info(f"자가 최적화 기록 완료: {OPTIMIZATION_DIR}")
 
 def evaluate_and_adapt():
     """매매 성과를 평가하고 파라미터를 조정"""
@@ -46,14 +68,12 @@ def evaluate_and_adapt():
     if len(history) < 3:
         return
 
-    # 마지막 평가 이후의 성과 계산 (여기서는 단순화하여 전체 히스토리 기반)
-    # 실제로는 '최근 5회' 등의 윈도우 방식이 좋음
-    
     old_params = state.get("adapted_params", {}).copy()
     # None인 경우 기본값으로 채움
     if old_params.get("buy_offset") is None: old_params["buy_offset"] = BUY_OFFSET
     if old_params.get("sell_offset") is None: old_params["sell_offset"] = SELL_OFFSET
     if old_params.get("polling_interval") is None: old_params["polling_interval"] = POLLING_INTERVAL
+    if old_params.get("quantity") is None: old_params["quantity"] = 1
     
     new_params = old_params.copy()
     reason = "정기 성과 평가 기반 조정"
@@ -64,18 +84,18 @@ def evaluate_and_adapt():
     # 1. 승률이 높고 수익이 났을 때: 익절 목표가 상향
     if win_rate > 70 and total_pnl > 0:
         new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
-        reason = "승률 우수: 익절 목표가 상향"
+        reason = "승률 우수: 익절 목표가 상향 (수익 극대화)"
     
     # 2. 손실이 발생했을 때: 더 싸게 사고(BUY_OFFSET 증가), 보수적으로 매도
     elif total_pnl < 0:
         new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
         new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
-        reason = "손실 발생: 보수적 대응으로 전환 (매수 타점 하향)"
+        reason = "손실 발생: 보수적 대응으로 전환 (매수 타점 하향 및 빠른 익절)"
 
     # 변경 사항이 있을 경우 저장 및 로깅
     if new_params != old_params:
         update_state(adapted_params=new_params)
-        log_adaptation(reason, old_params, new_params, performance)
+        log_adaptation(reason, old_params, new_params, performance, history)
 
 def evaluate_unrealized_risk(current_price, avg_price, qty):
     """
