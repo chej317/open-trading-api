@@ -41,8 +41,8 @@ def get_stock_holding(holdings, symbol):
             hldg_qty = int(item['hldg_qty'])
             # ord_psbl_qty: 매도 가능 수량
             ord_psbl_qty = int(item.get('ord_psbl_qty', 0))
-            # puse_uprc: 평균 매입단가
-            avg_price = float(item.get('puse_uprc', 0))
+            # pchs_avg_pric: 매입평균가격
+            avg_price = float(item.get('pchs_avg_pric', 0))
             
             logger.info(f"[{symbol}] 보유: {hldg_qty}주, 매도 가능: {ord_psbl_qty}주, 평단가: {avg_price:,.0f}원")
             return hldg_qty, ord_psbl_qty, avg_price
