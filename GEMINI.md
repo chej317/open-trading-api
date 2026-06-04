@@ -99,7 +99,7 @@ Logging requirements:
 매 세션이 종료되기 전이나 주요 작업(기능 구현, 버그 수정 등)이 완료된 후, 반드시 다음 절차를 수행하여 대화 기록을 남겨야 합니다.
 
 1.  **고충실도(High-Fidelity) 기록**: 단순 요약이 아니라, 사용자의 의도, 기술적 결정 이유, 실행된 주요 명령어 및 결과를 충실히 포함합니다.
-2.  **파일 생성**: `conversation_YYYYMMDD_HHMM.md` 형식으로 루트 디렉토리에 저장합니다.
+2.  **파일 생성**: `conversation_history/conversation_YYYYMMDD_HHMM.md` 형식으로 저장합니다.
 3.  **스크립트 활용**: `python scripts/export_chat.py`를 실행하여 `log.md`로부터 기록을 추출하되, 로그가 아직 갱신되지 않은 경우 직접 작성하여 보완합니다.
 
 Safety and design requirements:

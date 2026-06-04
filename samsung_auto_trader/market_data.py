@@ -25,3 +25,28 @@ def get_current_price(client, symbol):
         except (KeyError, ValueError) as e:
             logger.error(f"시세 데이터 파싱 실패: {e}")
     return None
+
+def get_minute_ohlcv(client, symbol, count=30):
+    """
+    최근 분봉 데이터(OHLCV) 조회
+    """
+    url = "/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice"
+    tr_id = "FHKST03010200"
+    params = {
+        "FID_ETC_CLS_CODE": "",
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": symbol,
+        "FID_PW_DATA_INCU_YN": "N",
+        "FID_HOUR_CLS_CODE": "1" # 1분봉
+    }
+    
+    res = client.get(url, tr_id, params=params)
+    if res and 'output2' in res:
+        try:
+            # 최근 봉부터 오므로 역순으로 정렬하여 반환
+            output2 = res['output2'][:count]
+            prices = [float(item['stck_prpr']) for item in reversed(output2)]
+            return prices
+        except (KeyError, ValueError) as e:
+            logger.error(f"분봉 데이터 파싱 실패: {e}")
+    return []

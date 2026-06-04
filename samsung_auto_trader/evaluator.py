@@ -58,75 +58,105 @@ def log_adaptation(reason, old_params, new_params, performance, history):
 
     logger.info(f"자가 최적화 기록 완료: {OPTIMIZATION_DIR}")
 
-def evaluate_and_adapt(price_data=None):
+def calculate_atr(prices, high_prices, low_prices, period=15):
+    """최근 N분간의 ATR(Average True Range) 계산"""
+    if len(prices) < period + 1:
+        return None
+    
+    tr_list = []
+    for i in range(len(prices) - period, len(prices)):
+        high = high_prices[i]
+        low = low_prices[i]
+        prev_close = prices[i-1]
+        
+        tr = max(high - low, abs(high - prev_close), abs(low - prev_close))
+        tr_list.append(tr)
+        
+    return sum(tr_list) / period
+
+def evaluate_and_adapt(price_data=None, client=None, symbol=None):
     """
-    매매 성과 및 현재 시장 상황을 평가하고 파라미터를 조정 (Proactive Strategy)
+    종합 점수제(Scoring System) 기반의 자가 적응형 전략 평가 및 수정
     """
     state = load_state()
     history = state.get("history", [])
     performance = state.get("performance", {})
     unrealized = state.get("unrealized_metrics", {})
     
-    # 쿨다운 체크 (최소 30분 간격으로만 자동 수정 허용)
+    # 쿨다운 체크
     now = datetime.now()
     last_adapt_str = state.get("last_adapt_time")
     if last_adapt_str:
         last_adapt = datetime.strptime(last_adapt_str, "%Y-%m-%d %H:%M:%S")
-        if (now - last_adapt).total_seconds() < 1800: # 30분
+        if (now - last_adapt).total_seconds() < 1200: # 20분으로 단축 (반응성 강화)
             return
 
     old_params = state.get("adapted_params", {}).copy()
-    # None인 경우 기본값으로 채움
     if old_params.get("buy_offset") is None: old_params["buy_offset"] = BUY_OFFSET
     if old_params.get("sell_offset") is None: old_params["sell_offset"] = SELL_OFFSET
-    if old_params.get("polling_interval") is None: old_params["polling_interval"] = POLLING_INTERVAL
-    if old_params.get("quantity") is None: old_params["quantity"] = 1
     
-    new_params = old_params.copy()
-    reason = ""
+    # ---------------------------------------------------------
+    # 가중치 점수 산정 (Positive: 오프셋 확대/보수적, Negative: 오프셋 축소/공격적)
+    # ---------------------------------------------------------
+    total_score = 0
+    reasons = []
 
-    # 1. Proactive: 미실현 손실 기반 리스크 관리 (보유 중일 때)
+    # 1. 미실현 손익 요인 (무게중심: 리스크 관리)
     current_ratio = unrealized.get("current_ratio", 0)
     if current_ratio <= -2.0:
-        new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
-        reason = f"미실현 손실 확대({current_ratio}%): 매수 타점 하향 조정"
+        total_score += 20
+        reasons.append(f"미실현 손실({current_ratio}%)")
+    elif current_ratio >= 1.5:
+        total_score -= 10
+        reasons.append(f"수익권 진입({current_ratio}%)")
 
-    # 2. Proactive: 시장 변동성 기반 (현재가 데이터 활용)
-    if not reason and price_data:
-        high, low, current = price_data["high"], price_data["low"], price_data["price"]
-        volatility = (high - low) / current if current > 0 else 0
-        
-        # 변동성이 너무 낮은 경우 (횡보장): 오프셋을 줄여 체결 유도
-        if volatility < 0.01: # 1% 미만
-            new_params["buy_offset"] = max(old_params["buy_offset"] - 500, 1000)
-            new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
-            reason = f"낮은 시장 변동성({volatility:.2%}): 오프셋 축소로 체결 유도"
-        # 변동성이 매우 큰 경우: 오프셋을 늘려 안전하게 대응
-        elif volatility > 0.03: # 3% 초과
-            new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
-            new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
-            reason = f"높은 시장 변동성({volatility:.2%}): 오프셋 확대로 리스크 관리"
+    # 2. 실시간 ATR 변동성 요인 (최근 15분)
+    if client and symbol:
+        from .market_data import get_minute_ohlcv
+        # ATR 계산을 위해 OHLC 데이터를 위해 추가 API 호출이 필요할 수 있으나, 
+        # 여기서는 단순화를 위해 현재가 기반 변동폭을 사용하거나 market_data를 확장합니다.
+        # 일단은 기존 price_data를 활용한 단기 변동성으로 점수화
+        if price_data:
+            curr_price = price_data["price"]
+            # 임시로 고저차 활용 (향후 ATR로 정교화 가능)
+            vol = (price_data["high"] - price_data["low"]) / curr_price if curr_price > 0 else 0
+            if vol > 0.02: # 변동성 큼
+                total_score += 15
+                reasons.append(f"시장 변동성 확대({vol:.1%})")
+            elif vol < 0.005: # 매우 정적인 시장
+                total_score -= 15
+                reasons.append(f"시장 정체({vol:.1%})")
 
-    # 3. Reactive: 기존 성과 기반 조정 (최소 3회 매매 시)
-    if not reason and len(history) >= 3:
+    # 3. 과거 승률/성과 요인 (최근 5회 기준)
+    if len(history) >= 3:
         win_rate = performance.get("win_rate", 0)
         total_pnl = performance.get("total_pnl", 0)
-        
-        if win_rate > 70 and total_pnl > 0:
-            new_params["sell_offset"] = min(old_params["sell_offset"] + 500, 10000)
-            reason = "정기 평가(승률 우수): 익절 목표가 상향"
-        elif total_pnl < 0:
-            new_params["buy_offset"] = min(old_params["buy_offset"] + 500, 10000)
-            new_params["sell_offset"] = max(old_params["sell_offset"] - 500, 1000)
-            reason = "정기 평가(누적 손실): 보수적 대응으로 전환"
+        if total_pnl < 0:
+            total_score += 15
+            reasons.append("누적 손실 발생")
+        elif win_rate > 70:
+            total_score -= 10
+            reasons.append("우수한 승률 유지")
 
-    # 변경 사항이 있을 경우 저장 및 로깅
-    if reason and new_params != old_params:
+    # ---------------------------------------------------------
+    # 최종 파라미터 결정
+    # ---------------------------------------------------------
+    new_params = old_params.copy()
+    
+    # 점수 1점당 오프셋 50원 단위 조정 (예시)
+    offset_adjustment = total_score * 50
+    
+    new_params["buy_offset"] = max(1000, min(10000, BUY_OFFSET + offset_adjustment))
+    new_params["sell_offset"] = max(1000, min(10000, SELL_OFFSET + (offset_adjustment // 2)))
+
+    if reasons and new_params != old_params:
+        reason_str = ", ".join(reasons)
         update_state(
             adapted_params=new_params,
             last_adapt_time=now.strftime("%Y-%m-%d %H:%M:%S")
         )
-        log_adaptation(reason, old_params, new_params, performance, history)
+        log_adaptation(f"종합 점수 기반 조정: {reason_str} (합계 점수: {total_score})", 
+                       old_params, new_params, performance, history)
 
 def evaluate_unrealized_risk(current_price, avg_price, qty):
     """
@@ -166,26 +196,64 @@ def evaluate_unrealized_risk(current_price, avg_price, qty):
 
     return None
 
-def check_anti_peak(current_price):
-    """
-    '물리지 않도록' 하기 위한 고점 매수 방지 로직.
-    현재가가 최근 고점 대비 너무 높거나 급등한 상태라면 매수 유보 또는 오프셋 강화.
-    """
-    state = load_state()
-    metrics = state.get("session_metrics", {})
-    recent_high = metrics.get("recent_high", 0)
-    
-    # 최근 고점 업데이트
-    if current_price > recent_high:
-        update_state(session_metrics={"recent_high": current_price})
-        return 0 # 고점 갱신 중일 때는 정상 오프셋 사용
+def calculate_ma(prices, period=20):
+    """이동평균 계산"""
+    if len(prices) < period:
+        return None
+    return sum(prices[-period:]) / period
 
-    # 고점 대비 하락 폭 확인
-    drop_from_high = (recent_high - current_price) / recent_high if recent_high > 0 else 0
+def calculate_rsi(prices, period=14):
+    """RSI(상대강도지표) 계산"""
+    if len(prices) < period + 1:
+        return None
     
-    # 고점 대비 0.5% 이내로 너무 근접해 있다면 '물릴' 위험이 있다고 판단
-    if drop_from_high < 0.005:
-        logger.warning(f"고점 근접 경고 (고점: {recent_high}, 현재가: {current_price}). 매수 오프셋 일시 강화.")
-        return 1000 # 추가 오프셋 부과
-        
-    return 0
+    deltas = [prices[i+1] - prices[i] for i in range(len(prices)-1)]
+    gains = [d if d > 0 else 0 for d in deltas]
+    losses = [-d if d < 0 else 0 for d in deltas]
+    
+    avg_gain = sum(gains[-period:]) / period
+    avg_loss = sum(losses[-period:]) / period
+    
+    if avg_loss == 0:
+        return 100
+    
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
+def check_anti_peak(client, symbol, current_price):
+    """
+    이격도 및 RSI 기반 고점 매수 방지 로직.
+    단기 과열 상태(이격도 과다 또는 RSI 과매수)일 경우 매수 오프셋을 강화하여 관망 유도.
+    """
+    prices = []
+    from .market_data import get_minute_ohlcv
+    prices = get_minute_ohlcv(client, symbol, count=30)
+    
+    if not prices:
+        return 0
+
+    # 1. 이격도(Disparity) 체크: 20분 이평선 대비
+    ma20 = calculate_ma(prices, 20)
+    disparity = (current_price / ma20 * 100) if ma20 else 100
+    
+    # 2. RSI 체크
+    rsi = calculate_rsi(prices, 14)
+    
+    extra_offset = 0
+    warning_msgs = []
+
+    # 과매수 기준: RSI 70 이상
+    if rsi and rsi >= 70:
+        extra_offset += 2000
+        warning_msgs.append(f"RSI 과매수({rsi:.1f})")
+    
+    # 이격도 과열 기준: 20선 대비 1% 이상 상방 이격
+    if disparity > 101.0:
+        extra_offset += 1500
+        warning_msgs.append(f"이격도 과열({disparity:.1f}%)")
+
+    if extra_offset > 0:
+        logger.warning(f"⚠️ 단기 고점 매수 방지 작동: {', '.join(warning_msgs)}. 오프셋 +{extra_offset}원 추가.")
+    
+    return extra_offset

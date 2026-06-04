@@ -3,11 +3,15 @@ from datetime import datetime
 from .config import SYMBOL, BUY_OFFSET, SELL_OFFSET, POLLING_INTERVAL, START_TIME, END_TIME
 from .market_data import get_current_price
 from .account import get_balance, get_stock_holding
-from .orders import buy_limit_order, sell_limit_order
+from .orders import buy_limit_order, sell_limit_order, cancel_order
 from .state import load_state, update_state
 from .evaluator import evaluate_and_adapt, check_anti_peak, evaluate_unrealized_risk
 from .utils import round_to_tick
 from .logger import logger
+
+# 주문 관리 상수
+ORDER_TIMEOUT_SEC = 600 # 10분
+PRICE_DIVERGENCE_THRESHOLD = 2000 # 2000원 이상 차이날 경우
 
 def is_trading_time():
     now = datetime.now()
@@ -57,6 +61,59 @@ def run_trading_loop(client):
             
             current_price = price_data["price"]
             
+            # --- 주문 타임아웃/이탈 체크 ---
+            if state["status"] in ["BUYING", "SELLING"] and state.get("last_order_id"):
+                order_time_str = state.get("last_order_time")
+                should_cancel = False
+                cancel_reason = ""
+                
+                if order_time_str:
+                    try:
+                        order_time = datetime.fromisoformat(order_time_str)
+                        elapsed = (datetime.now() - order_time).total_seconds()
+                        if elapsed > ORDER_TIMEOUT_SEC:
+                            should_cancel = True
+                            cancel_reason = f"타임아웃 ({elapsed:.0f}초 경과)"
+                    except Exception as e:
+                        logger.error(f"주문 시간 파싱 오류: {e}")
+                
+                target_price = state.get("target_price", 0)
+                if not should_cancel and target_price > 0:
+                    diff = abs(current_price - target_price)
+                    if diff > PRICE_DIVERGENCE_THRESHOLD:
+                        should_cancel = True
+                        cancel_reason = f"가격 이탈 (현재가:{current_price:,.0f}, 목표가:{target_price:,.0f}, 차이:{diff:,.0f})"
+                
+                if should_cancel:
+                    logger.warning(f"⚠️ 주문 고착 감지: {cancel_reason}. 주문 취소를 시도합니다.")
+                    # 취소 시 필요한 정보: 주문번호, 수량, 가격
+                    qty_to_cancel = state.get("last_order_qty", 1)
+                    success, response = cancel_order(client, SYMBOL, state["last_order_id"], qty_to_cancel, target_price)
+                    
+                    # 취소 성공했거나, 서버에 주문이 없는 경우(이미 취소됨 등) 강제 리셋
+                    is_not_found = False
+                    if not success and response:
+                        msg_cd = response.get('msg_cd', '')
+                        msg1 = response.get('msg1', '')
+                        
+                        # 초당 거래건수 초과(EGW00201) 시 잠시 대기 후 다음 루프에서 재시도할 수 있도록 함
+                        if msg_cd == 'EGW00201':
+                            logger.warning("API 호출 제한(TPS) 초과. 잠시 대기합니다.")
+                            time.sleep(2)
+                        
+                        # 모의투자 원주문번호 부재 에러코드(주로 40220000 또는 메시지 내용 기반)
+                        if msg_cd == '40220000' or "존재하지 않습니다" in msg1:
+                            is_not_found = True
+                            logger.info(f"유령 주문 감지 ({msg1}). 로컬 상태를 강제 리셋합니다.")
+
+                    if success or is_not_found:
+                        new_status = "IDLE" if state["status"] == "BUYING" else "HOLDING"
+                        update_state(status=new_status, order_id=None, order_type=None, order_time=None, order_qty=0)
+                        state = load_state()
+                        logger.info(f"상태 전환 완료: {new_status}")
+                    else:
+                        logger.error("주문 취소 실패. 다음 루프에서 재시도합니다.")
+
             # API 호출 간격 조정을 위한 짧은 대기
             time.sleep(1)
                 
@@ -67,12 +124,12 @@ def run_trading_loop(client):
             risk_action = evaluate_unrealized_risk(current_price, avg_price, hldg_qty)
 
             # 자가 적응형 전략 평가 및 수정 (Proactive: 미실현 손익 및 시장 상황 반영)
-            evaluate_and_adapt(price_data=price_data)
+            evaluate_and_adapt(price_data=price_data, client=client, symbol=SYMBOL)
 
             # 3. 매매 판단 (상태 기반)
             if hldg_qty == 0:
-                # 매수 전 '물림 방지' 체크
-                extra_offset = check_anti_peak(current_price)
+                # 매수 전 '과열 방지' 체크 (지표 기반)
+                extra_offset = check_anti_peak(client, SYMBOL, current_price)
                 
                 # 매도 주문이 체결된 경우 상태 전환
                 if state["status"] not in ["IDLE", "BUYING"]:
@@ -91,7 +148,14 @@ def run_trading_loop(client):
                         logger.info(f"매수 조건 충족: 현재가({current_price}) - 오프셋({current_buy_offset}+{extra_offset}) = {buy_price}원 (보수적 하향 보정)")
                         ord_no = buy_limit_order(client, SYMBOL, current_qty, buy_price)
                         if ord_no:
-                            update_state(status="BUYING", order_id=ord_no, order_type="BUY", target_price=buy_price)
+                            update_state(
+                                status="BUYING", 
+                                order_id=ord_no, 
+                                order_type="BUY", 
+                                order_time=datetime.now().isoformat(),
+                                order_qty=current_qty,
+                                target_price=buy_price
+                            )
                             state = load_state()
                     else:
                         logger.warning(f"예수금 부족으로 매수 불가 (예수금: {cash}원, 필요: {buy_price * current_qty}원)")
@@ -141,6 +205,8 @@ def run_trading_loop(client):
                             status="SELLING", 
                             order_id=ord_no, 
                             order_type="SELL", 
+                            order_time=datetime.now().isoformat(),
+                            order_qty=ord_psbl_qty,
                             target_price=int(target_sell_price),
                             history_entry=history_entry,
                             performance={

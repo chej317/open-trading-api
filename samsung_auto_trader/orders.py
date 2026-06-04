@@ -37,6 +37,37 @@ def place_order(client, ord_dv, symbol, qty, price):
         logger.error(f"주문 실패: {res.get('msg1') if res else '응답 없음'}")
         return None
 
+def cancel_order(client, symbol, ord_no, qty, price):
+    """
+    주문 취소
+    """
+    url = "/uapi/domestic-stock/v1/trading/order-rvsecncl"
+    tr_id = "VTTC0013U" # 모의투자 정정/취소
+    
+    data = {
+        "CANO": CAN_ACCOUNT,
+        "ACNT_PRDT_CD": ACCOUNT_PRODUCT_CODE,
+        "KRX_FWDG_ORD_ORGNO": "", # 모의투자는 공백 허용
+        "ORGN_ODNO": ord_no,
+        "ORD_DVSN": "00", # 지정가
+        "RVSE_CNCL_DVSN_CD": "02", # 01: 정정, 02: 취소
+        "ORD_QTY": str(qty),
+        "ORD_UNPR": str(price),
+        "QTY_ALL_ORD_YN": "Y", # 전량 취소
+        "EXCG_ID_DVSN_CD": "KRX"
+    }
+    
+    logger.info(f"[CANCEL] 주문 취소 요청: {symbol}, 주문번호: {ord_no}")
+    res = client.post(url, tr_id, data=data)
+    
+    if res and res.get('rt_cd') == '0':
+        logger.info(f"주문 취소 성공! (원주문: {ord_no})")
+        return True, res
+    else:
+        msg = res.get('msg1') if res else '응답 없음'
+        logger.error(f"주문 취소 실패: {msg}")
+        return False, res
+
 def buy_limit_order(client, symbol, qty, price):
     return place_order(client, "buy", symbol, qty, price)
 
