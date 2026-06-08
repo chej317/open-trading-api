@@ -223,37 +223,48 @@ def calculate_rsi(prices, period=14):
 
 def check_anti_peak(client, symbol, current_price):
     """
-    이격도 및 RSI 기반 고점 매수 방지 로직.
-    단기 과열 상태(이격도 과다 또는 RSI 과매수)일 경우 매수 오프셋을 강화하여 관망 유도.
+    이격도 및 RSI 기반 고점 매수 방지 로직 (분봉/일봉 복합)
+    단기 및 거시 과열 상태일 경우 매수 오프셋을 강화하여 관망 유도.
     """
-    prices = []
-    from .market_data import get_minute_ohlcv
-    prices = get_minute_ohlcv(client, symbol, count=30)
-    
-    if not prices:
-        return 0
-
-    # 1. 이격도(Disparity) 체크: 20분 이평선 대비
-    ma20 = calculate_ma(prices, 20)
-    disparity = (current_price / ma20 * 100) if ma20 else 100
-    
-    # 2. RSI 체크
-    rsi = calculate_rsi(prices, 14)
-    
     extra_offset = 0
     warning_msgs = []
-
-    # 과매수 기준: RSI 70 이상
-    if rsi and rsi >= 70:
-        extra_offset += 2000
-        warning_msgs.append(f"RSI 과매수({rsi:.1f})")
     
-    # 이격도 과열 기준: 20선 대비 1% 이상 상방 이격
-    if disparity > 101.0:
-        extra_offset += 1500
-        warning_msgs.append(f"이격도 과열({disparity:.1f}%)")
+    from .market_data import get_minute_ohlcv, get_daily_ohlcv
+    
+    # 1. 단기 과열 체크 (분봉 기준)
+    min_prices = get_minute_ohlcv(client, symbol, count=30)
+    if min_prices:
+        ma20_min = calculate_ma(min_prices, 20)
+        disparity_min = (current_price / ma20_min * 100) if ma20_min else 100
+        rsi_min = calculate_rsi(min_prices, 14)
+        
+        if rsi_min and rsi_min >= 70:
+            extra_offset += 1500
+            warning_msgs.append(f"분봉 RSI 과매수({rsi_min:.1f})")
+        if disparity_min > 101.5:
+            extra_offset += 1000
+            warning_msgs.append(f"분봉 이격도 과열({disparity_min:.1f}%)")
+
+    # 2. 거시 과열 체크 (일봉 기준 - 20일 이평선 및 일일 RSI)
+    daily_prices = get_daily_ohlcv(client, symbol, count=35)
+    if daily_prices:
+        ma20_daily = calculate_ma(daily_prices, 20)
+        disparity_daily = (current_price / ma20_daily * 100) if ma20_daily else 100
+        rsi_daily = calculate_rsi(daily_prices, 14)
+        
+        # 일봉 기준 강력한 고점 시그널 (20일선 대비 5% 이상 상방 이격 또는 RSI 70 이상)
+        if rsi_daily and rsi_daily >= 70:
+            extra_offset += 3000
+            warning_msgs.append(f"일봉 RSI 과매수({rsi_daily:.1f})")
+        
+        if disparity_daily > 105.0:
+            extra_offset += 5000 # 강력한 오프셋 추가
+            warning_msgs.append(f"20일선 이격도 과다({disparity_daily:.1f}%)")
+        elif disparity_daily > 103.0:
+            extra_offset += 2000
+            warning_msgs.append(f"20일선 이격도 주의({disparity_daily:.1f}%)")
 
     if extra_offset > 0:
-        logger.warning(f"⚠️ 단기 고점 매수 방지 작동: {', '.join(warning_msgs)}. 오프셋 +{extra_offset}원 추가.")
+        logger.warning(f"⚠️ 종합 고점 매수 방지 작동: {', '.join(warning_msgs)}. 총 오프셋 +{extra_offset}원 추가.")
     
     return extra_offset

@@ -50,3 +50,27 @@ def get_minute_ohlcv(client, symbol, count=30):
         except (KeyError, ValueError) as e:
             logger.error(f"분봉 데이터 파싱 실패: {e}")
     return []
+
+def get_daily_ohlcv(client, symbol, count=35):
+    """
+    최근 일자별 시세 데이터(OHLCV) 조회 (20일 이평선 및 RSI용)
+    """
+    url = "/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice"
+    tr_id = "FHKST03010100" # 국내주식 기간별 시세(일/주/월)
+    params = {
+        "FID_COND_MRKT_DIV_CODE": "J",
+        "FID_INPUT_ISCD": symbol,
+        "FID_PERIOD_DIV_CODE": "D", # 일봉
+        "FID_ORG_ADJ_PRC": "0" # 수정주가
+    }
+    
+    res = client.get(url, tr_id, params=params)
+    if res and 'output2' in res:
+        try:
+            # 최근 데이터부터 오므로 역순으로 정렬
+            output2 = res['output2'][:count]
+            prices = [float(item['stck_clpr']) for item in reversed(output2)]
+            return prices
+        except (KeyError, ValueError) as e:
+            logger.error(f"일봉 데이터 파싱 실패: {e}")
+    return []
