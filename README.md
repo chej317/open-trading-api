@@ -168,4 +168,7 @@ python -m samsung_auto_trader.verify_kis_period_profit
   - KIS 모의투자 서버는 초당 호출수(TPS) 제한이 매우 낮습니다. 우리 프로그램은 기본 루프 대기(60초) 및 에러 시 쿨타임(2~3초)을 통해 TPS를 보수적으로 자동 조절하지만, 수동 검증 스크립트를 연속 실행할 경우 일시적으로 발생할 수 있습니다. 수 초 대기 후 재실행해 주십시오.
 - **계좌 정보 불일치 오류**
   - 중간에 모의투자 계좌를 다른 대회나 계정으로 변경했을 경우 `trade_state.json` 내의 계좌 필드(`"CAN_ACCOUNT"`)와 `.env` 파일의 `GH_ACCOUNT`가 다를 수 있습니다. 이 경우 기존 `trade_state.json`을 삭제하거나 백업한 뒤 다시 프로그램을 실행하면 정상 구동됩니다.
+- **프로그램 로컬 수익과 실제 KIS 계좌 잔고상 수익의 불일치**
+  - 세금/수수료 누락, 한투 서버의 이동평균법 평단가 조정 방식 차이, 모의체결 서버 지연 등에 따른 실무적 괴리입니다. 또한 모의투자 환경에서는 API 안정성 및 호출 제한(TPS) 이슈로 교차 검증 스크립트 실행이 제한될 수 있습니다. 자세한 원인 분석 및 해결 방안은 [samsung_auto_trader/README.md](samsung_auto_trader/README.md#7-실무적-한계-및-교차-검증상의-이슈-limitations--verification-issues)를 참고해 주십시오.
+
 
