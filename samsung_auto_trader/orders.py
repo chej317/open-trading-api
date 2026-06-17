@@ -8,10 +8,11 @@ def place_order(client, ord_dv, symbol, qty, price):
     """
     url = "/uapi/domestic-stock/v1/trading/order-cash"
     
+    # 국내주식 모의투자 표준 TR_ID
     if ord_dv == "buy":
-        tr_id = "VTTC0012U" # 모의투자 매수
+        tr_id = "VTTC0802U" # 모의투자 매수
     else:
-        tr_id = "VTTC0011U" # 모의투자 매도
+        tr_id = "VTTC0801U" # 모의투자 매도
         
     data = {
         "CANO": CAN_ACCOUNT,
@@ -20,13 +21,13 @@ def place_order(client, ord_dv, symbol, qty, price):
         "ORD_DVSN": "00", # 지정가
         "ORD_QTY": str(qty),
         "ORD_UNPR": str(price),
-        "EXCG_ID_DVSN_CD": "KRX",
-        "SLL_TYPE": "01" if ord_dv == "sell" else "",
-        "CNDT_PRIC": "",
+        "EXCG_ID_DVSN_CD": "KRX", # 모의투자에서도 KRX 지정 권장
+        "SLL_TYPE": "01" if ord_dv == "sell" else "00", # 매도 시 01(일반), 매수 시 00
+        "CTAC_TLNO": "",
         "ALGO_NO": ""
     }
     
-    logger.info(f"[{ord_dv.upper()}] 주문 요청: {symbol}, {qty}주, {price}원")
+    logger.info(f"[{ord_dv.upper()}] 주문 요청: {symbol}, {qty}주, {price}원 (TR_ID: {tr_id})")
     res = client.post(url, tr_id, data=data)
     
     if res and res.get('rt_cd') == '0':
@@ -34,7 +35,8 @@ def place_order(client, ord_dv, symbol, qty, price):
         logger.info(f"주문 성공! 주문번호: {ord_no}")
         return ord_no
     else:
-        logger.error(f"주문 실패: {res.get('msg1') if res else '응답 없음'}")
+        error_msg = res.get('msg1') if res else '응답 없음'
+        logger.error(f"주문 실패: {error_msg}")
         return None
 
 def cancel_order(client, symbol, ord_no, qty, price):
@@ -42,7 +44,7 @@ def cancel_order(client, symbol, ord_no, qty, price):
     주문 취소
     """
     url = "/uapi/domestic-stock/v1/trading/order-rvsecncl"
-    tr_id = "VTTC0013U" # 모의투자 정정/취소
+    tr_id = "VTTC0803U" # 모의투자 정정/취소 표준
     
     data = {
         "CANO": CAN_ACCOUNT,

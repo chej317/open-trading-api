@@ -59,6 +59,11 @@ class KISClient:
     def post(self, url, tr_id, data=None, retry=True):
         self._wait_for_rate_limit()
         headers = self._get_headers(tr_id)
+        # 로그용 데이터 마스킹
+        log_data = data.copy() if data else {}
+        if "CANO" in log_data:
+            log_data["CANO"] = log_data["CANO"][:4] + "****"
+            
         try:
             res = requests.post(f"{BASE_URL}{url}", headers=headers, json=data, timeout=10)
             
@@ -78,5 +83,9 @@ class KISClient:
         except Exception as e:
             logger.error(f"POST 요청 실패 ({tr_id}): {e}")
             if hasattr(e, 'response') and e.response is not None:
-                logger.error(f"상세 에러: {e.response.text}")
+                try:
+                    err_json = e.response.json()
+                    logger.error(f"상세 에러: {err_json.get('msg_cd')} - {err_json.get('msg1')}")
+                except:
+                    logger.error(f"상세 에러: {e.response.text}")
             return None
