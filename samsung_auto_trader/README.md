@@ -22,23 +22,21 @@
 ### 2.1. 자가 적응형 최적화 메커니즘 (Self-Improving Engine)
 `evaluator.py`에 구현된 자가 적응형 로직은 **종합 점수제(Scoring System)**에 기반하여 작동합니다. 20분의 변경 쿨다운(Cool-down) 장치를 두어 과적합(Overfitting)을 방지하며, 다음의 3가지 핵심 요인을 결합해 `BUY_OFFSET`과 `SELL_OFFSET`을 동적으로 재조정합니다.
 
-$$
-\text{Total Score} = \text{Unrealized PnL Score} + \text{Market Volatility Score} + \text{Historical Performance Score}
-$$
+Total Score = Unrealized PnL Score + Market Volatility Score + Historical Performance Score
 
 | 평가 요인 | 세부 조건 | 점수 영향 | 파라미터 보정 방향 |
 | :--- | :--- | :--- | :--- |
-| **미실현 손익** | 미실현 손실 $\le -2.0\%$ | $+20$ 점 | 오프셋 확대 (매수 목표가를 더 낮춰 보수적 진입) |
-| | 미실현 수익 $\ge +1.5\%$ | $-10$ 점 | 오프셋 축소 (공격적 포지션 정리 유도) |
-| **시장 변동성** | 최근 고저차 변동성 $> 2.0\%$ | $+15$ 점 | 오프셋 확대 (변동성 장세 대비 안정거리 확보) |
-| (15분 OHLC) | 최근 고저차 변동성 $< 0.5\%$ | $-15$ 점 | 오프셋 축소 (정체 시장에서 빠른 체결 유도) |
-| **과거 성과** | 누적 손익(PnL) 음수 | $+15$ 점 | 오프셋 확대 (보수적 매매로 전환) |
-| (최근 5회) | 최근 5회 승률 $> 70\%$ | $-10$ 점 | 오프셋 축소 (공격적 알파 수익 추구) |
+| **미실현 손익** | 미실현 손실 ≤ -2.0% | +20 점 | 오프셋 확대 (매수 목표가를 더 낮춰 보수적 진입) |
+| | 미실현 수익 ≥ +1.5% | -10 점 | 오프셋 축소 (공격적 포지션 정리 유도) |
+| **시장 변동성** | 최근 고저차 변동성 > 2.0% | +15 점 | 오프셋 확대 (변동성 장세 대비 안정거리 확보) |
+| (15분 OHLC) | 최근 고저차 변동성 < 0.5% | -15 점 | 오프셋 축소 (정체 시장에서 빠른 체결 유도) |
+| **과거 성과** | 누적 손익(PnL) 음수 | +15 점 | 오프셋 확대 (보수적 매매로 전환) |
+| (최근 5회) | 최근 5회 승률 > 70% | -10 점 | 오프셋 축소 (공격적 알파 수익 추구) |
 
 > **동적 파라미터 조정 공식**: 
-> 최종 결정된 누적 점수($\text{Total Score}$) 1점당 50원 단위로 기본 오프셋을 가감하여 최저 1,000원 ~ 최고 10,000원 한도 내에서 유동적으로 조절합니다.
-> - $\text{New BUY}_{\text{OFFSET}} = \text{Clip}(\text{BUY}_{\text{OFFSET}, base} + \text{Total Score} \times 50, 1000, 10000)$
-> - $\text{New SELL}_{\text{OFFSET}} = \text{Clip}(\text{SELL}_{\text{OFFSET}, base} + \frac{\text{Total Score}}{2} \times 50, 1000, 10000)$
+> 최종 결정된 누적 점수(Total Score) 1점당 50원 단위로 기본 오프셋을 가감하여 최저 1,000원 ~ 최고 10,000원 한도 내에서 유동적으로 조절합니다.
+> - New BUY_OFFSET = Clip(BUY_OFFSET_base + Total Score × 50, 1000, 10000)
+> - New SELL_OFFSET = Clip(SELL_OFFSET_base + (Total Score / 2) × 50, 1000, 10000)
 
 ---
 
