@@ -17,6 +17,7 @@
 - `examples_user/`: 사용자가 실제 투자 및 자동매매 구현에 활용할 수 있도록 상품별로 통합된 API 호출 예제 코드
 - `strategy_builder/`: 비주얼 UI로 매매 전략을 설계하고, 생성된 시그널 바탕으로 매수/매도 가능
 - `backtester/`: 설계한 전략을 과거 데이터로 검증하는 백테스팅 엔진
+- `samsung_auto_trader/`: KIS Developers API 기반의 실시간 자가 적응형 삼성전자(005930) 자동매매 프로그램 (모의투자용)
 
 > AI와 사람이 모두 활용하기 쉬운 구조를 지향합니다.
 
@@ -38,6 +39,7 @@
 ├── README.md                    # 프로젝트 설명서
 ├── strategy_builder/            # 전략 설계 + 시그널 생성 엔진           ← New
 ├── backtester/                  # 백테스팅 엔진 (QuantConnect Lean)   ← New
+├── samsung_auto_trader/         # 실시간 자가 적응형 자동매매 프로그램 (삼성전자) ← New
 │
 ├── docs/
 │   └── convention.md            # 코딩 컨벤션 가이드
@@ -131,6 +133,7 @@ graph LR
 |----------|------|------|
 | `strategy_builder/` | 전략 설계 + 시그널 생성 | 80개 기술지표, 10개 프리셋 전략, BUY/SELL/HOLD 신호 ([README](strategy_builder/README.md)) |
 | `backtester/` | 과거 검증 + 파라미터 최적화 | Docker 기반 QuantConnect Lean, HTML 리포트 ([README](backtester/README.md)) |
+| `samsung_auto_trader/` | 실시간 자가 적응형 자동매매 | 삼성전자 자동매매 엔진, 미실현 손익 위험 관리(손절/Trailing Stop), 자가 파라미터 최적화 및 다양한 평가 검증 툴 ([README](samsung_auto_trader/README.md)) |
 | `MCP/` | AI 도구 연결 | KIS Code Assistant + Trading MCP ([README](MCP/README.MD)) |
 
 #### 10개 프리셋 전략
