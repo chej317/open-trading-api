@@ -1,162 +1,41 @@
-**[당사에서 제공하는 샘플코드에 대한 유의사항]**
+# 🎓 ECO4126 인공지능과금융공학 기말 프로젝트
+> **한국투자증권(KIS) Open API 기반 삼성전자(005930) 자가 적응형 자동매매 시스템**  
+> **본 프로젝트는 한국투자증권 Open API를 활용하여 시장 변화에 동적으로 대응하는 자가 적응형(Self-Adapting) 삼성전자 자동매매 프로그램(samsung_auto_trader)을 설계 및 개발한 프로젝트 결과물입니다.**
 
-- 샘플 코드는 한국투자증권 Open API(KIS Developers)를 연동하는 예시입니다. 고객님의 개발 부담을 줄이고자 참고용으로 제공되고 있습니다.
-- 샘플 코드는 별도의 공지 없이 지속적으로 업데이트될 수 있습니다.
-- 샘플 코드를 활용하여 제작한 고객님의 프로그램으로 인한 손해에 대해서는 당사에서 책임지지 않습니다.
+---
 
-# KIS Open API 샘플 코드 저장소 (LLM 지원)
+## 🎯 1. 핵심 프로젝트: 삼성전자 자가 적응형 자동매매
+본 리포지토리의 주 평가 산출물은 **`samsung_auto_trader/`** 폴더에 구현된 **"실시간 자가 적응형 자동매매 프로그램"**입니다. 
+- **금융공학적 핵심**: 고정된 스프레드 주문의 한계를 극복하기 위해 실시간 시장 변동성(분봉/일봉 OHLCV), 미실현 손익률, 과거 승률을 종합 반영한 **Scoring System 기반의 오프셋 자동조정(Self-Improving)**을 채택했습니다.
+- **안정성/리스크 관리**: **Anti-Peak(고점 매수 방지) 필터**, **Trailing Stop(수익 보존)**, **Hard Stop-Loss**를 레이어별로 배치하고, 한투 모의투자 서버의 낮은 TPS 환경을 고려한 **보수적 폴링 및 Rate limit 협동 대기**를 설계했습니다.
+- **교차 검증 자동화**: 로컬 상태기록(`trade_state.json`)과 한국투자증권 브로커 서버 간의 데이터 정합성을 검증하기 위해 **체결 및 기간 손익 교차 대조 검증 스크립트**를 직접 구현했습니다.
 
-## 1. 제작 의도 및 대상
+*상세 설계 및 수식은 [samsung_auto_trader/README.md](samsung_auto_trader/README.md)를 참고해 주십시오.*
 
-### 🎯 제작 의도
+---
 
-이 저장소는 **ChatGPT, Claude 등 LLM(Large Language Model)** 기반 자동화 환경과 Python 개발자 모두가
-**한국투자증권(Korea Investment & Securities) Open API를 쉽게 이해하고 활용**할 수 있도록 구성된 샘플 코드 모음입니다.
+## 🛠️ 2. 리포지토리 폴더 구조
 
-- `examples_llm/`: LLM이 단일 API 기능을 쉽게 탐색하고 호출할 수 있도록 구성된 기능 단위 샘플 코드
-- `examples_user/`: 사용자가 실제 투자 및 자동매매 구현에 활용할 수 있도록 상품별로 통합된 API 호출 예제 코드
-- `strategy_builder/`: 비주얼 UI로 매매 전략을 설계하고, 생성된 시그널 바탕으로 매수/매도 가능
-- `backtester/`: 설계한 전략을 과거 데이터로 검증하는 백테스팅 엔진
-- `samsung_auto_trader/`: KIS Developers API 기반의 실시간 자가 적응형 삼성전자(005930) 자동매매 프로그램 (모의투자용)
-
-> AI와 사람이 모두 활용하기 쉬운 구조를 지향합니다.
-
-[한국투자증권 Open API 포털 바로가기](https://apiportal.koreainvestment.com/)
-
-### 👤 대상 사용자
-
-- 한국투자증권 Open API를 처음 사용하는 Python 개발자
-- 기존 Open API 사용자 중 코드 개선 및 구조 학습이 필요한 사용자
-- LLM 기반 코드 에이전트를 활용해 종목 검색, 시세 분석, 자동매매 등을 구현하고자 하는 사용자
-
-## 2. 폴더 구조 및 주요 파일 설명
-
-### 2.1. 폴더 구조
+본 저장소는 메인 매매 프로그램과 한국투자증권 Open API를 학습/테스트하기 위한 보조 코드들로 구성되어 있습니다.
 
 ```
-# 프로젝트 구조
 .
-├── README.md                    # 프로젝트 설명서
-├── strategy_builder/            # 전략 설계 + 시그널 생성 엔진           ← New
-├── backtester/                  # 백테스팅 엔진 (QuantConnect Lean)   ← New
-├── samsung_auto_trader/         # 실시간 자가 적응형 자동매매 프로그램 (삼성전자) ← New
+├── samsung_auto_trader/         # ★ 핵심 프로젝트: 삼성전자 자가 적응형 자동매매 프로그램
+│   ├── main.py                  # 진입점
+│   ├── trader.py                # 매매 루프 엔진
+│   ├── evaluator.py             # 자가 적응형 파라미터 최적화 및 리스크 관리
+│   ├── api_client.py            # KIS Developers REST API 클라이언트
+│   ├── trade_state.json         # 로컬 거래 상태 관리 파일
+│   └── verify_kis_*.py          # 로컬-서버 교차 검증 도구 모음
 │
-├── docs/
-│   └── convention.md            # 코딩 컨벤션 가이드
-├── examples_llm/                  # LLM용 샘플 코드
-│   ├── kis_auth.py              # 인증 공통 함수
-│   ├── auth                     # 인증(토큰 발급)
-│   │   ├── auth_token               # REST 접근토큰 발급
-│   │   └── auth_ws_token            # 웹소켓 접속키 발급
-│   ├── domestic_bond            # 국내채권
-│   │   └── inquire_price        # API 단일 기능별 폴더
-│   │       ├── inquire_price.py         # 한줄 호출 파일 (예: 채권 가격 조회)
-│   │       └── chk_inquire_price.py     # 테스트 파일 (예: 채권 가격 조회 결과 검증)
-│   ├── domestic_futureoption    # 국내선물옵션
-│   ├── domestic_stock           # 국내주식
-│   ├── elw                      # ELW
-│   ├── etfetn                   # ETF/ETN
-│   ├── overseas_futureoption    # 해외선물옵션
-│   └── overseas_stock           # 해외주식
-├── examples_user/                 # user용 실제 사용 예제
-│   ├── kis_auth.py              # 인증 공통 함수
-│   ├── auth                     # 인증(토큰 발급)
-│   │   ├── auth_functions.py            # 인증 함수 모음
-│   │   └── auth_examples.py             # 인증 실행 예제
-│   ├── domestic_bond            # 국내채권
-│   │   ├── domestic_bond_functions.py        # (REST) 통합 함수 파일 (모든 API 함수 모음)
-│   │   ├── domestic_bond_examples.py         # (REST) 실행 예제 파일 (함수 사용법)
-│   │   ├── domestic_bond_functions_ws.py     # (Websocket) 통합 함수 파일
-│   │   └── domestic_bond_examples_ws.py      # (Websocket) 실행 예제 파일
-│   ├── domestic_futureoption    # 국내선물옵션
-│   ├── domestic_stock           # 국내주식
-│   ├── elw                      # ELW
-│   ├── etfetn                   # ETF/ETN
-│   ├── overseas_futureoption    # 해외선물옵션
-│   └── overseas_stock           # 해외주식
-├── legacy/                      # 구 샘플코드 보관
-├── stocks_info/                 # 종목정보파일 참고 데이터
-├── kis_devlp.yaml               # API 설정 파일 (개인정보 입력 필요)
-├── pyproject.toml               # (uv)프로젝트 의존성 관리
-└── uv.lock                      # (uv)의존성 락 파일
+├── docs/                        # 개발 컨벤션 가이드
+├── examples_llm/                  # KIS API 단일 기능별 테스트 예제 (보조용)
+├── examples_user/                 # KIS API 통합 호출 함수 및 예제 (보조용)
+├── kis_devlp.yaml               # API 접속 설정 템플릿
+├── pyproject.toml               # 의존성 관리 설정
+└── uv.lock                      # 의존성 락 파일
 ```
 
-### 2.2. 지원되는 주요 API 카테고리
-
-- 아래 카테고리 및 폴더 구조는 examples_llm/, examples_user/ 폴더 모두 동일하게 적용됩니다.
-
-| 카테고리 | 설명 | 폴더명 |
-| --- | --- | --- |
-| 인증 | 접근토큰 발급, 웹소켓 접속키 발급 | `auth` |
-| 국내주식 | 국내 주식 시세, 주문, 잔고 등 | `domestic_stock` |
-| 국내채권 | 국내 채권 시세, 주문 등 | `domestic_bond` |
-| 국내선물옵션 | 국내 파생상품 관련 | `domestic_futureoption` |
-| 해외주식 | 해외 주식 시세, 주문 등 | `overseas_stock` |
-| 해외선물옵션 | 해외 파생상품 관련 | `overseas_futureoption` |
-| ELW | ELW 시세 API | `elw` |
-| ETF/ETN | ETF, ETN 시세 API | `etfetn` |
-
-### 2.3. 주요 파일 설명
-
-### `examples_llm/` - llm용 기능 단위 샘플 코드
-
-**API별 개별 폴더 구조**: 단일 API 기능을 독립 폴더로 분리하여, LLM이 관련 코드를 쉽게 탐색할 수 있도록 구성
-- **한줄 호출 파일**: `[함수명].py` – 단일 기능을 호출하는 최소 단위 코드 (예: `inquire_price.py`)
-- **테스트 파일**: `chk_[함수명].py` – 호출 결과를 검증하는 테스트 실행 코드 (예: `chk_inquire_price.py`)
-
-### `examples_user/` - 사용자용 통합 예제 코드
-
-**카테고리별 개별 폴더 구조**: 카테고리(상품)별로 모든 기능을 통합하여, 사용자가 쉽게 샘플 코드를 탐색하고 실행할 수 있도록 구성
-- **통합 함수 파일**: `[카테고리]_functions.py` - 해당 카테고리의 모든 API 기능이 통합된 함수 모음
-- **실행 예제 파일**: `[카테고리]_examples.py` - 실제 사용 예제를 기반으로 한 실행 코드
-- **웹소켓 통합 함수 파일 및 실행 예제 파일**: `[카테고리]_functions_ws.py`, `[카테고리]_examples_ws.py`
-
-### `kis_auth.py` - 인증 및 공통 기능
-
-- 접근토큰 발급 및 관리
-- API 호출 공통 함수
-- 실전투자/모의투자 환경 전환 지원
-- 웹소켓 연결 설정 기능 제공
-
-### 2.4. AI 트레이딩 도구
-
-샘플 코드 외에, Open API를 활용한 **전략 설계 → 백테스팅 → 주문 실행** 파이프라인을 제공합니다.
-
-```mermaid
-graph LR
-    SB[strategy_builder] -->|".kis.yaml"| BT[backtester]
-    BT -->|"검증 완료"| SB
-    SB -->|"BUY/SELL/HOLD"| KIS[KIS Open API]
-```
-
-| 디렉토리 | 역할 | 상세 |
-|----------|------|------|
-| `strategy_builder/` | 전략 설계 + 시그널 생성 | 80개 기술지표, 10개 프리셋 전략, BUY/SELL/HOLD 신호 ([README](strategy_builder/README.md)) |
-| `backtester/` | 과거 검증 + 파라미터 최적화 | Docker 기반 QuantConnect Lean, HTML 리포트 ([README](backtester/README.md)) |
-| `samsung_auto_trader/` | 실시간 자가 적응형 자동매매 | 삼성전자 자동매매 엔진, 미실현 손익 위험 관리(손절/Trailing Stop), 자가 파라미터 최적화 및 다양한 평가 검증 툴 ([README](samsung_auto_trader/README.md)) |
-| `MCP/` | AI 도구 연결 | KIS Code Assistant + Trading MCP ([README](MCP/README.MD)) |
-
-#### 10개 프리셋 전략
-
-`strategy_builder`와 `backtester` 양쪽에서 동일하게 지원합니다.
-
-| # | 전략명 | 유형 | 한줄 설명 |
-|---|--------|------|-----------|
-| 01 | 골든크로스 | 추세추종 | 단기 이동평균이 장기 이동평균을 상향 돌파하면 매수 |
-| 02 | 모멘텀 | 추세추종 | 최근 N일 수익률이 높은 종목을 매수 |
-| 03 | 52주 신고가 | 돌파매매 | 종가가 52주 최고가를 갱신하면 매수 |
-| 04 | 연속 상승/하락 | 추세추종 | N일 연속 종가 상승 시 매수, N일 연속 하락 시 매도 |
-| 05 | 이격도 | 역추세 | 종가/이동평균 비율로 과열(매도)·침체(매수) 판단 |
-| 06 | 돌파 실패 | 손절 | 전고점 돌파 후 다시 아래로 빠지면 손절 |
-| 07 | 강한 종가 | 모멘텀 | 종가가 당일 고가 근처에서 마감하면 매수 |
-| 08 | 변동성 확장 | 돌파매매 | 변동성이 줄어든 뒤 급등하면 매수 |
-| 09 | 평균회귀 | 역추세 | 가격이 평균에서 크게 벗어나면 반대 방향으로 매매 |
-| 10 | 추세 필터 | 추세추종 | 장기 이동평균 위에서 상승 중이면 매수 |
-
-#### .kis.yaml — 공유 전략 포맷
-
-`strategy_builder`에서 설계한 전략을 `.kis.yaml`로 내보내면, `backtester`에서 그대로 Import하여 백테스트를 수행할 수 있습니다.
-포맷 상세는 [strategy_builder/README.md](strategy_builder/README.md#kisyaml-포맷) 또는 [backtester/README.md](backtester/README.md#kisyaml-포맷)를 참고하세요.
 
 ## 3. 사전 환경설정 안내
 
@@ -248,155 +127,45 @@ my_prod: "01" # 종합계좌
 my_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 ```
 
-### 3.6. 실행파일 내 인증 설정 검토
+## 4. 프로그램 실행 및 검증 방법
 
-- 실행하려는 파일에서 인증 관련 설정을 검토 혹은 변경해줍니다. 국내주식 기능 전체를 이용하시려면, `domestic_stock/domestic_stock_examples.py` 파일을 확인해주세요. 
-ka.auth() 함수의 svr, product 매개변수를 아래와 같이 수정하면 실전환경(prod)에서 위탁계좌(-01)로 매매 테스트가 가능합니다.
-
-```python
-import kis_auth as ka
-
-# 실전투자 인증
-ka.auth(svr="prod", product="01") # 모의투자: svr="vps"
+### 4.1. 환경 변수 설정 (.env)
+프로젝트 루트 경로에 `.env` 파일을 생성하고 아래 정보를 기입합니다:
+```env
+GH_APPKEY="발급받은_모의투자_AppKey"
+GH_APPSECRET="발급받은_모의투자_AppSecret"
+GH_ACCOUNT="모의투자_계좌번호_8자리"
+GH_ACCOUNT_PRDT_CD="01"
 ```
 
-### 3.7. 전략 빌더 / 백테스터 환경 설정 (선택)
-
-전략 설계 및 백테스팅 기능을 사용하려면 추가 설정이 필요합니다.
-
-| 항목 | 설치 | 용도 |
-|------|------|------|
-| Node.js 18+ | [nodejs.org](https://nodejs.org/) | strategy_builder, backtester 프론트엔드 |
-| Docker Desktop | [docker.com](https://www.docker.com/products/docker-desktop) | backtester (Lean 엔진) |
-
-## 4. 샘플 코드 실행
-
-### 4.1. 샘플 코드 실행
-
-- **examples_user 기준**
-
+### 4.2. 실행 방법
 ```bash
-# 국내주식 샘플 코드 실행 (examples_user/domestic_stock/)
-uv run python domestic_stock_examples.py # REST 방식
-uv run python domestic_stock_examples_ws.py  # Websocket 방식 
+# 의존성 패키지 설치
+pip install -r samsung_auto_trader/requirements.txt
+
+# 자가 적응형 자동매매 프로그램 실행
+python -m samsung_auto_trader.main
 ```
 
-domestic_stock_examples.py에는 여러 함수가 포함되어 있으므로, 사용하려는 함수만 남기고 나머지는 주석 처리한 후, 입력값을 수정하여 호출해 주세요.
-
-- **examples_llm 기준**
-
+### 4.3. 사후 검증 도구 구동
+로컬 거래 상태(`trade_state.json`)와 KIS 실제 서버 데이터를 교차 검증하기 위해 아래 도구들을 사용할 수 있습니다:
 ```bash
-# 국내주식 > 주식현재가 시세 샘플 코드 실행 (examples_llm/domestic_stock/inquire_price/)
-uv run python chk_inquire_price.py
+# 로컬 누적 손익 확인
+python -m samsung_auto_trader.sum_state_pnl
+
+# 당일 KIS 서버 체결 내역 대조 검증
+python -m samsung_auto_trader.verify_kis_daily_ccld
+
+# 기간별 KIS 서버 실손익 대조 검증
+python -m samsung_auto_trader.verify_kis_period_profit
 ```
-
-examples_llm 은 각 기능별로 개별 실행 파일(chk_*.py)이 분리되어 있어, 특정 기능만 테스트하고자 할 때 유용합니다.
-
-### 4.2. 예제 코드 샘플 (examples_user)
-
-```python
-# REST API 호출 예제 - domestic_stock_examples.py
-import sys
-import logging
-import pandas as pd
-sys.path.extend(['..', '.'])
-
-import kis_auth as ka
-from domestic_stock_functions import *
-
-# 로깅 설정
-logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-# 인증
-ka.auth()
-trenv = ka.getTREnv()
-
-# 삼성전자 현재가 시세 조회
-result = inquire_price(env_dv="real", fid_cond_mrkt_div_code="J", fid_input_iscd="005930")
-print(result)
-```
-
-```python
-# 웹소켓 호출 예제 - domestic_stock_examples_ws.py
-import sys
-import logging
-import pandas as pd
-sys.path.extend(['..', '.'])
-
-import kis_auth as ka
-from domestic_stock_functions_ws import *
-
-# 로깅 설정
-logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-# 인증
-ka.auth()
-ka.auth_ws()
-trenv = ka.getTREnv()
-
-# 웹소켓 선언
-kws = ka.KISWebSocket(api_url="/tryitout")
-
-# 삼성전자, sk하이닉스 실시간 호가 구독
-kws.subscribe(request=asking_price_krx, data=["005930", "000660"])
-```
-
-### 4.3. 전략 빌더 / 백테스터 실행
-
-```bash
-# Strategy Builder (전략 설계 + 시그널)
-cd strategy_builder
-./start.sh
-
-# Backtester (백테스팅)
-cd backtester
-./start.sh
-```
-
-상세 실행 방법은 각 디렉토리의 README를 참고하세요:
-- [strategy_builder/README.md](strategy_builder/README.md)
-- [backtester/README.md](backtester/README.md)
-
-## 5. 문제 해결 가이드
-
-### 토큰 오류 시
-
-```python
-import kis_auth as ka
-
-# 토큰 재발급 - 1분당 1회 발급됩니다.
-ka.auth(svr="prod")  # 또는 "vps"
-```
-
-### 설정 파일 오류 시
-
-- `kis_devlp.yaml` 파일의 앱키, 앱시크릿이 올바른지 확인
-- 계좌번호 형식이 맞는지 확인 (앞 8자리 + 뒤 2자리)
-- 실시간 시세(WebSocket) 이용 중 ‘No close frame received’ 오류가 발생하는 경우, `kis_devlp.yaml`에 입력하신 HTS ID가 정확한지 확인
-
-### 의존성 오류 시
-
-```bash
-# 의존성 재설치
-uv sync --reinstall
-```
-
-### Docker 오류 (backtester)
-
-```bash
-docker info              # Docker Desktop 실행 상태 확인
-docker images | grep lean # Lean 이미지 확인 (첫 실행 시 자동 다운로드)
-```
-
-### 초당 거래건수 초과 (`EGW00201`)
-
-모의투자 계좌는 REST API 호출 제한이 낮습니다.
-단일 조회에는 문제없으나, 파라미터 최적화처럼 연속 호출이 많으면 실전투자 계좌를 권장합니다.
 
 ---
 
-# 📧 문의사항
+## 5. 문제 해결 가이드 (FAQ)
 
-- [💬 한국투자증권 Open API 챗봇](https://chatgpt.com/g/g-68b920ee7afc8191858d3dc05d429571-hangugtujajeunggweon-open-api-seobiseu-gpts)에 언제든 궁금한 점을 물어보세요.
+- **초당 거래건수 초과 (`EGW00201`)**
+  - KIS 모의투자 서버는 초당 호출수(TPS) 제한이 매우 낮습니다. 우리 프로그램은 기본 루프 대기(60초) 및 에러 시 쿨타임(2~3초)을 통해 TPS를 보수적으로 자동 조절하지만, 수동 검증 스크립트를 연속 실행할 경우 일시적으로 발생할 수 있습니다. 수 초 대기 후 재실행해 주십시오.
+- **계좌 정보 불일치 오류**
+  - 중간에 모의투자 계좌를 다른 대회나 계정으로 변경했을 경우 `trade_state.json` 내의 계좌 필드(`"CAN_ACCOUNT"`)와 `.env` 파일의 `GH_ACCOUNT`가 다를 수 있습니다. 이 경우 기존 `trade_state.json`을 삭제하거나 백업한 뒤 다시 프로그램을 실행하면 정상 구동됩니다.
+
