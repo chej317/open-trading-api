@@ -22,7 +22,9 @@
 ### 2.1. 자가 적응형 최적화 메커니즘 (Self-Improving Engine)
 `evaluator.py`에 구현된 자가 적응형 로직은 **종합 점수제(Scoring System)**에 기반하여 작동합니다. 20분의 변경 쿨다운(Cool-down) 장치를 두어 과적합(Overfitting)을 방지하며, 다음의 3가지 핵심 요인을 결합해 `BUY_OFFSET`과 `SELL_OFFSET`을 동적으로 재조정합니다.
 
-$$\text{Total Score} = \text{Unrealized PnL Score} + \text{Market Volatility Score} + \text{Historical Performance Score}$$
+$$
+\text{Total Score} = \text{Unrealized PnL Score} + \text{Market Volatility Score} + \text{Historical Performance Score}
+$$
 
 | 평가 요인 | 세부 조건 | 점수 영향 | 파라미터 보정 방향 |
 | :--- | :--- | :--- | :--- |
@@ -35,8 +37,8 @@ $$\text{Total Score} = \text{Unrealized PnL Score} + \text{Market Volatility Sco
 
 > **동적 파라미터 조정 공식**: 
 > 최종 결정된 누적 점수($\text{Total Score}$) 1점당 50원 단위로 기본 오프셋을 가감하여 최저 1,000원 ~ 최고 10,000원 한도 내에서 유동적으로 조절합니다.
-> - $\text{New BUY\_OFFSET} = \text{Clip}(\text{BUY\_OFFSET}_{base} + \text{Total Score} \times 50, 1000, 10000)$
-> - $\text{New SELL\_OFFSET} = \text{Clip}(\text{SELL\_OFFSET}_{base} + \frac{\text{Total Score}}{2} \times 50, 1000, 10000)$
+> - $ \text{New BUY\_OFFSET} = \text{Clip}(\text{BUY\_OFFSET}_{base} + \text{Total Score} \times 50, 1000, 10000) $
+> - $ \text{New SELL\_OFFSET} = \text{Clip}(\text{SELL\_OFFSET}_{base} + \frac{\text{Total Score}}{2} \times 50, 1000, 10000) $
 
 ---
 
