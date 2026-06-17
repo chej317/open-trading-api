@@ -101,18 +101,18 @@ flowchart TD
 
 | 파일명 | 역할 및 기능 설명 |
 | :--- | :--- |
-| **[main.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/main.py)** | 프로그램 진입점. 당일 토큰을 발급/로드하고, KISClient를 구성하여 매매 루프를 구동함. |
-| **[config.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/config.py)** | 종목 정보(005930), 기본 오프셋, 타임아웃, 거래 시간(09:10 ~ 15:30) 등 글로벌 환경 설정 관리. |
-| **[auth.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/auth.py)** | KIS API 인증 모듈. 당일 발급받은 토큰을 `token_cache.json`에 저장하고 재사용해 불필요한 API 호출을 배제. |
-| **[api_client.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/api_client.py)** | KIS Developers REST API 연동을 위한 베이스 HTTP 클라이언트. 헤더 구성 및 공통 예외 처리. |
-| **[market_data.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/market_data.py)** | 삼성전자 현재가 및 이평선/RSI 연산을 위한 분봉·일봉 OHLCV 시세 데이터 수집 모듈. |
-| **[account.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/account.py)** | 예수금 잔고 조회 및 특정 종목 보유 수량, 주문 가능 수량, 평균 매입단가 실시간 트래킹. |
-| **[orders.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/orders.py)** | 신규 지정가 매수/매도 주문 전송 및 미체결 주문 취소 실행. 호가단위(Tick size) 정밀 매핑. |
-| **[trader.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/trader.py)** | 본 트레이딩 시스템의 코어 엔진. 상태 머신 기반 주문/체결 검증 및 타임아웃, 리스크 제어 연계. |
-| **[evaluator.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/evaluator.py)** | 성과 모니터링, scoring 시스템 기반 파라미터 최적화, Stop-loss 및 Trailing stop 리스크 계산. |
-| **[state.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/state.py)** | 프로그램 비정상 종료 시 복구를 위한 상태 관리 모듈 (`trade_state.json` 영속화 및 백업). |
-| **[logger.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/logger.py)** | 콘솔 출력과 `logs/` 파일 저장을 병행하여 디버깅 및 사후 검증을 위한 구조화된 로깅 수행. |
-| **[utils.py](file:///C:/Users/witpo/OneDrive/바탕 화면/YONSEI/26-1/ECO4126 인공지능과금융공학/open-trading-api/samsung_auto_trader/utils.py)** | 국내 주식 가격 규격에 맞게 가격을 호가 단위(Tick)에 맞추는 수학적 라운딩 헬퍼 함수 제공. |
+| **[main.py](main.py)** | 프로그램 진입점. 당일 토큰을 발급/로드하고, KISClient를 구성하여 매매 루프를 구동함. |
+| **[config.py](config.py)** | 종목 정보(005930), 기본 오프셋, 타임아웃, 거래 시간(09:10 ~ 15:30) 등 글로벌 환경 설정 관리. |
+| **[auth.py](auth.py)** | KIS API 인증 모듈. 당일 발급받은 토큰을 `token_cache.json`에 저장하고 재사용해 불필요한 API 호출을 배제. |
+| **[api_client.py](api_client.py)** | KIS Developers REST API 연동을 위한 베이스 HTTP 클라이언트. 헤더 구성 및 공통 예외 처리. |
+| **[market_data.py](market_data.py)** | 삼성전자 현재가 및 이평선/RSI 연산을 위한 분봉·일봉 OHLCV 시세 데이터 수집 모듈. |
+| **[account.py](account.py)** | 예수금 잔고 조회 및 특정 종목 보유 수량, 주문 가능 수량, 평균 매입단가 실시간 트래킹. |
+| **[orders.py](orders.py)** | 신규 지정가 매수/매도 주문 전송 및 미체결 주문 취소 실행. 호가단위(Tick size) 정밀 매핑. |
+| **[trader.py](trader.py)** | 본 트레이딩 시스템의 코어 엔진. 상태 머신 기반 주문/체결 검증 및 타임아웃, 리스크 제어 연계. |
+| **[evaluator.py](evaluator.py)** | 성과 모니터링, scoring 시스템 기반 파라미터 최적화, Stop-loss 및 Trailing stop 리스크 계산. |
+| **[state.py](state.py)** | 프로그램 비정상 종료 시 복구를 위한 상태 관리 모듈 (`trade_state.json` 영속화 및 백업). |
+| **[logger.py](logger.py)** | 콘솔 출력과 `logs/` 파일 저장을 병행하여 디버깅 및 사후 검증을 위한 구조화된 로깅 수행. |
+| **[utils.py](utils.py)** | 국내 주식 가격 규격에 맞게 가격을 호가 단위(Tick)에 맞추는 수학적 라운딩 헬퍼 함수 제공. |
 
 ---
 
