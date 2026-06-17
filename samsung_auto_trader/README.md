@@ -37,8 +37,8 @@ $$
 
 > **동적 파라미터 조정 공식**: 
 > 최종 결정된 누적 점수($\text{Total Score}$) 1점당 50원 단위로 기본 오프셋을 가감하여 최저 1,000원 ~ 최고 10,000원 한도 내에서 유동적으로 조절합니다.
-> - $ \text{New BUY\_OFFSET} = \text{Clip}(\text{BUY\_OFFSET}_{base} + \text{Total Score} \times 50, 1000, 10000) $
-> - $ \text{New SELL\_OFFSET} = \text{Clip}(\text{SELL\_OFFSET}_{base} + \frac{\text{Total Score}}{2} \times 50, 1000, 10000) $
+> - $\text{New BUY}_{\text{OFFSET}} = \text{Clip}(\text{BUY}_{\text{OFFSET}, base} + \text{Total Score} \times 50, 1000, 10000)$
+> - $\text{New SELL}_{\text{OFFSET}} = \text{Clip}(\text{SELL}_{\text{OFFSET}, base} + \frac{\text{Total Score}}{2} \times 50, 1000, 10000)$
 
 ---
 
