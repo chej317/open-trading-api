@@ -1,0 +1,270 @@
+2026-06-17 10:42:35,520 - INFO - 새로운 접근 토큰을 발급받습니다... (사유: 토큰 만료 또는 없음)
+2026-06-17 10:42:36,203 - INFO - 새로운 토큰이 발급 및 저장되었습니다. 만료 시간: 2026-06-18 10:42:35
+2026-06-17 10:42:36,208 - INFO - 삼성전자 자동매매 프로그램을 시작합니다. (자가 적응형 로직 활성화)
+2026-06-17 10:42:36,235 - INFO - 📅 날짜 변경 감지 (2026-06-15 -> 2026-06-17). 세션 데이터를 초기화합니다.
+2026-06-17 10:42:36,235 - INFO - 이전 상태 로드 완료: IDLE (목표가: 300500원)
+2026-06-17 10:42:36,240 - INFO - 📅 날짜 변경 감지 (2026-06-15 -> 2026-06-17). 세션 데이터를 초기화합니다.
+2026-06-17 10:42:41,074 - INFO - [005930] 현재가: 334750, 고가: 337000, 저가: 331500
+2026-06-17 10:42:44,833 - INFO - 계좌 예수금: 9588469원
+2026-06-17 10:42:44,834 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 10:42:44,840 - INFO - 📅 날짜 변경 감지 (2026-06-15 -> 2026-06-17). 세션 데이터를 초기화합니다.
+2026-06-17 10:42:44,846 - INFO - 📅 날짜 변경 감지 (2026-06-15 -> 2026-06-17). 세션 데이터를 초기화합니다.
+2026-06-17 10:42:44,877 - INFO - 미실현 손익: 36,250원 (12.14%), 최고 수익률: 12.14%
+2026-06-17 10:42:44,949 - INFO - 자가 최적화 기록 완료: C:\Users\witpo\OneDrive\바탕 화면\YONSEI\26-1\ECO4126 인공지능과금융공학\open-trading-api\self_optimization_history
+2026-06-17 10:42:44,949 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(334,750) -> 목표가(337,000원) (보수적 상향 보정)
+2026-06-17 10:42:44,950 - INFO - [SELL] 주문 요청: 005930, 1주, 337000원 (TR_ID: VTTC0011U)
+2026-06-17 10:42:50,879 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 10:42:50,879 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 10:42:53,980 - INFO - 사용자에 의해 프로그램이 중단되었습니다.
+2026-06-17 10:42:53,982 - INFO - 프로그램을 종료합니다.
+2026-06-17 14:27:38,795 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 14:27:38,795 - INFO - 삼성전자 자동매매 프로그램을 시작합니다. (자가 적응형 로직 활성화)
+2026-06-17 14:27:38,827 - INFO - 이전 상태 로드 완료: IDLE (목표가: 300500원)
+2026-06-17 14:27:42,720 - INFO - [005930] 현재가: 345000, 고가: 345000, 저가: 331500
+2026-06-17 14:27:51,927 - INFO - 계좌 예수금: 9588469원
+2026-06-17 14:27:51,928 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 14:27:51,962 - INFO - 미실현 손익: 46,500원 (15.58%), 최고 수익률: 15.58%
+2026-06-17 14:27:52,018 - INFO - 자가 최적화 기록 완료: C:\Users\witpo\OneDrive\바탕 화면\YONSEI\26-1\ECO4126 인공지능과금융공학\open-trading-api\self_optimization_history
+2026-06-17 14:27:52,019 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(345,000) -> 목표가(346,500원) (보수적 상향 보정)
+2026-06-17 14:27:52,019 - INFO - [SELL] 주문 요청: 005930, 1주, 346500원 (TR_ID: VTTC0011U)
+2026-06-17 14:27:56,083 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 14:27:56,084 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:47:18,815 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 14:47:18,816 - INFO - 삼성전자 자동매매 프로그램을 시작합니다. (자가 적응형 로직 활성화)
+2026-06-17 14:47:18,847 - INFO - 이전 상태 로드 완료: IDLE (목표가: 300500원)
+2026-06-17 14:47:26,824 - INFO - [005930] 현재가: 345500, 고가: 348000, 저가: 331500
+2026-06-17 14:47:37,931 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:47:37,932 - ERROR - 잔고 조회 실패
+2026-06-17 14:47:51,289 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 343500원)
+2026-06-17 14:47:51,290 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:47:54,112 - INFO - 사용자에 의해 프로그램이 중단되었습니다.
+2026-06-17 14:47:54,113 - INFO - 프로그램을 종료합니다.
+2026-06-17 14:49:48,840 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 14:49:48,841 - INFO - 삼성전자 자동매매 프로그램을 시작합니다. (자가 적응형 로직 활성화)
+2026-06-17 14:49:48,845 - INFO - 이전 상태 로드 완료: IDLE (목표가: 300500원)
+2026-06-17 14:49:53,862 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 14:50:02,365 - INFO - 계좌 예수금: 9588469원
+2026-06-17 14:50:02,366 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 14:50:02,404 - INFO - 미실현 손익: 47,500원 (15.91%), 최고 수익률: 15.91%
+2026-06-17 14:50:02,434 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(346,000) -> 목표가(348,000원) (보수적 상향 보정)
+2026-06-17 14:50:02,435 - INFO - [SELL] 주문 요청: 005930, 1주, 348000원 (TR_ID: VTTC0011U)
+2026-06-17 14:50:08,637 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 14:50:08,637 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:51:17,545 - INFO - [005930] 현재가: 345500, 고가: 348000, 저가: 331500
+2026-06-17 14:51:28,633 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:51:28,635 - ERROR - 잔고 조회 실패
+2026-06-17 14:51:28,735 - INFO - 자가 최적화 기록 완료: C:\Users\witpo\OneDrive\바탕 화면\YONSEI\26-1\ECO4126 인공지능과금융공학\open-trading-api\self_optimization_history
+2026-06-17 14:51:47,103 - ERROR - GET 요청 실패 (FHKST03010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:51:47,104 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 343500원)
+2026-06-17 14:51:47,104 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:52:57,226 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:52:57,227 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 14:53:17,348 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:53:17,349 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 14:53:35,209 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 14:53:46,033 - INFO - 계좌 예수금: 9588469원
+2026-06-17 14:53:46,034 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 14:53:46,063 - INFO - 미실현 손익: 46,500원 (15.58%), 최고 수익률: 15.58%
+2026-06-17 14:53:46,094 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(345,000) -> 목표가(347,500원) (보수적 상향 보정)
+2026-06-17 14:53:46,095 - INFO - [SELL] 주문 요청: 005930, 1주, 347500원 (TR_ID: VTTC0011U)
+2026-06-17 14:53:53,359 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 14:53:53,360 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:54:58,741 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 14:55:09,149 - INFO - 계좌 예수금: 9588469원
+2026-06-17 14:55:09,149 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 14:55:09,182 - INFO - 미실현 손익: 46,500원 (15.58%), 최고 수익률: 15.58%
+2026-06-17 14:55:09,222 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(345,000) -> 목표가(347,500원) (보수적 상향 보정)
+2026-06-17 14:55:09,222 - INFO - [SELL] 주문 요청: 005930, 1주, 347500원 (TR_ID: VTTC0011U)
+2026-06-17 14:55:16,659 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 14:55:16,660 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:56:25,640 - INFO - [005930] 현재가: 344500, 고가: 348000, 저가: 331500
+2026-06-17 14:56:36,717 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:56:36,718 - ERROR - 잔고 조회 실패
+2026-06-17 14:56:51,489 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342000원)
+2026-06-17 14:56:51,489 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:57:57,743 - INFO - [005930] 현재가: 344750, 고가: 348000, 저가: 331500
+2026-06-17 14:58:08,844 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 14:58:08,847 - ERROR - 잔고 조회 실패
+2026-06-17 14:58:19,146 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342500원)
+2026-06-17 14:58:19,146 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 14:59:23,969 - INFO - [005930] 현재가: 345250, 고가: 348000, 저가: 331500
+2026-06-17 14:59:32,983 - INFO - 계좌 예수금: 9588469원
+2026-06-17 14:59:32,984 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 14:59:33,016 - INFO - 미실현 손익: 46,750원 (15.66%), 최고 수익률: 15.66%
+2026-06-17 14:59:33,046 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(345,250) -> 목표가(347,500원) (보수적 상향 보정)
+2026-06-17 14:59:33,047 - INFO - [SELL] 주문 요청: 005930, 1주, 347500원 (TR_ID: VTTC0011U)
+2026-06-17 14:59:37,077 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 14:59:37,078 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:00:47,166 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:00:47,167 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:01:07,289 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:01:07,290 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:01:27,365 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:01:27,366 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:01:47,451 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:01:47,452 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:02:07,102 - INFO - [005930] 현재가: 344000, 고가: 348000, 저가: 331500
+2026-06-17 15:02:18,193 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:02:18,193 - ERROR - 잔고 조회 실패
+2026-06-17 15:02:33,215 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 341500원)
+2026-06-17 15:02:33,216 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:03:43,356 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:03:43,357 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:04:01,080 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 15:04:12,174 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:04:12,175 - ERROR - 잔고 조회 실패
+2026-06-17 15:04:31,534 - ERROR - GET 요청 실패 (FHKST03010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:04:31,534 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342500원)
+2026-06-17 15:04:31,535 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:05:41,640 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:05:41,641 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:06:00,074 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 15:06:11,167 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:06:11,167 - ERROR - 잔고 조회 실패
+2026-06-17 15:06:26,495 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342500원)
+2026-06-17 15:06:26,496 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:07:36,618 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:07:36,619 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:07:56,352 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 15:08:07,472 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:08:07,472 - ERROR - 잔고 조회 실패
+2026-06-17 15:08:21,394 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342500원)
+2026-06-17 15:08:21,394 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:09:30,416 - INFO - [005930] 현재가: 344000, 고가: 348000, 저가: 331500
+2026-06-17 15:09:41,536 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:09:41,536 - ERROR - 잔고 조회 실패
+2026-06-17 15:09:55,607 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 341500원)
+2026-06-17 15:09:55,608 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:11:05,901 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:11:05,901 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:11:21,632 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 15:11:32,725 - ERROR - GET 요청 실패 (VTTC8434R): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:11:32,726 - ERROR - 잔고 조회 실패
+2026-06-17 15:11:47,484 - ERROR - GET 요청 실패 (FHKST03010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:11:47,485 - WARNING - 예수금 부족으로 매수 불가 (예수금: 0원, 필요: 342500원)
+2026-06-17 15:11:47,485 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:12:53,855 - INFO - [005930] 현재가: 345000, 고가: 348000, 저가: 331500
+2026-06-17 15:13:04,324 - INFO - 계좌 예수금: 9588469원
+2026-06-17 15:13:04,325 - INFO - [005930] 보유: 1주, 매도 가능: 1주, 평단가: 298,500원
+2026-06-17 15:13:04,380 - INFO - 미실현 손익: 46,500원 (15.58%), 최고 수익률: 15.58%
+2026-06-17 15:13:04,477 - INFO - 자가 최적화 기록 완료: C:\Users\witpo\OneDrive\바탕 화면\YONSEI\26-1\ECO4126 인공지능과금융공학\open-trading-api\self_optimization_history
+2026-06-17 15:13:04,479 - INFO - 매도 조건 충족: 평단가(298,500), 현재가(345,000) -> 목표가(347,500원) (보수적 상향 보정)
+2026-06-17 15:13:04,480 - INFO - [SELL] 주문 요청: 005930, 1주, 347500원 (TR_ID: VTTC0011U)
+2026-06-17 15:13:10,145 - ERROR - 주문 실패: 모의투자 주문이 불가한 계좌입니다.
+2026-06-17 15:13:10,145 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: IDLE)
+2026-06-17 15:13:22,023 - INFO - 사용자에 의해 프로그램이 중단되었습니다.
+2026-06-17 15:13:22,023 - INFO - 프로그램을 종료합니다.
+2026-06-17 15:18:30,476 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 15:18:30,476 - INFO - 삼성전자 자동매매 프로그램을 시작합니다. (자가 적응형 로직 활성화)
+2026-06-17 15:18:30,477 - INFO - 이전 상태 로드 완료: IDLE (목표가: 0원)
+2026-06-17 15:18:40,956 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:18:40,957 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:19:01,039 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:19:01,040 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:19:21,157 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:19:21,158 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:19:41,264 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:19:41,265 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:20:01,381 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:20:01,623 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:20:21,721 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:20:21,722 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:20:41,809 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:20:41,810 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:21:01,886 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:21:01,887 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:21:21,986 - ERROR - GET 요청 실패 (FHKST01010100): HTTPSConnectionPool(host='openapivts.koreainvestment.com', port=29443): Read timed out. (read timeout=10)
+2026-06-17 15:21:21,987 - WARNING - [005930] 현재가를 가져오는데 실패했습니다. 10초 후 재시도합니다.
+2026-06-17 15:21:38,520 - WARNING - 토큰 만료 감지 (EGW00123). 토큰 강제 갱신 후 재시도합니다.
+2026-06-17 15:21:38,520 - INFO - 새로운 접근 토큰을 발급받습니다... (사유: 강제 갱신 요청)
+2026-06-17 15:21:44,665 - INFO - 새로운 토큰이 발급 및 저장되었습니다. 만료 시간: 2026-06-18 15:21:44
+2026-06-17 15:21:51,431 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:22:01,666 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:22:01,708 - INFO - 자가 최적화 기록 완료: C:\Users\witpo\OneDrive\바탕 화면\YONSEI\26-1\ECO4126 인공지능과금융공학\open-trading-api\self_optimization_history
+2026-06-17 15:22:15,387 - INFO - 매수 조건 충족: 현재가(346000) - 오프셋(2000+0) = 344000원 (보수적 하향 보정)
+2026-06-17 15:22:15,388 - INFO - [BUY] 주문 요청: 005930, 1주, 344000원 (TR_ID: VTTC0802U)
+2026-06-17 15:22:18,050 - INFO - 주문 성공! 주문번호: 0000037680
+2026-06-17 15:22:18,103 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:23:21,767 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:23:29,325 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:23:33,932 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:23:33,938 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:24:35,369 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:24:42,210 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:24:44,695 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:24:44,696 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:25:44,845 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:25:55,050 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:25:55,685 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:25:55,685 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:26:57,822 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:27:04,991 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:27:10,014 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:27:10,015 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:28:11,761 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:28:17,597 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:28:18,234 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:28:18,235 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:29:21,489 - INFO - [005930] 현재가: 346000, 고가: 348000, 저가: 331500
+2026-06-17 15:29:24,880 - INFO - 계좌 예수금: 10000000원
+2026-06-17 15:29:27,751 - INFO - 이미 매수 주문(0000037680)이 진행 중입니다. 체결을 기다립니다.
+2026-06-17 15:29:27,751 - INFO - 60초 후 다음 확인을 진행합니다. (현재 상태: BUYING)
+2026-06-17 15:30:27,753 - INFO - 현재 시간 15:30:27, 장 종료 시간이 지났습니다. 프로그램을 종료합니다.
+2026-06-17 15:30:27,754 - INFO - 프로그램을 종료합니다.
+2026-06-17 16:23:22,921 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:23:23,344 - ERROR - GET 요청 실패 (TTTC8715R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-period-trade-profit?CANO=50193654&ACNT_PRDT_CD=01&SORT_DVSN=02&INQR_STRT_DT=20260526&INQR_END_DT=20260617&CBLC_DVSN=00&PDNO=005930
+2026-06-17 16:23:23,344 - ERROR - 상세 에러: {"rt_cd":"1","msg_cd":"EGW02006","msg1":"모의투자 TR 이 아닙니다."}
+2026-06-17 16:24:26,311 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:24:26,724 - ERROR - GET 요청 실패 (TTTC8708R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-period-profit?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260526&INQR_END_DT=20260617&SORT_DVSN=00&INQR_DVSN=00&CBLC_DVSN=00&PDNO=005930
+2026-06-17 16:24:26,724 - ERROR - 상세 에러: {"rt_cd":"1","msg_cd":"EGW02006","msg1":"모의투자 TR 이 아닙니다."}
+2026-06-17 16:25:20,621 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:25:48,667 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:26:17,167 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:28:16,047 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
+2026-06-17 16:28:18,935 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260526&INQR_END_DT=20260526&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:18,935 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:22,973 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260527&INQR_END_DT=20260527&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:22,973 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:23,983 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260528&INQR_END_DT=20260528&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:23,984 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:25,003 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260529&INQR_END_DT=20260529&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:25,003 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:25,985 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260530&INQR_END_DT=20260530&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:25,985 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:27,978 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260531&INQR_END_DT=20260531&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:27,979 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:28,993 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260601&INQR_END_DT=20260601&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:28,993 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:33,001 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260602&INQR_END_DT=20260602&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:33,002 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:38,292 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260603&INQR_END_DT=20260603&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:38,292 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:39,279 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260604&INQR_END_DT=20260604&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:39,280 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:40,292 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260605&INQR_END_DT=20260605&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:40,292 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:42,272 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260606&INQR_END_DT=20260606&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:42,272 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:43,296 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260607&INQR_END_DT=20260607&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:43,296 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:47,939 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260608&INQR_END_DT=20260608&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:47,939 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:48,922 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260609&INQR_END_DT=20260609&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:48,923 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:51,983 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260610&INQR_END_DT=20260610&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:51,983 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:53,920 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260611&INQR_END_DT=20260611&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:53,921 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:55,925 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260612&INQR_END_DT=20260612&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:55,925 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:56,930 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260613&INQR_END_DT=20260613&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:56,931 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:57,931 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260614&INQR_END_DT=20260614&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:57,932 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:58,920 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260615&INQR_END_DT=20260615&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:58,921 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:28:59,958 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260616&INQR_END_DT=20260616&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:28:59,959 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:29:02,087 - ERROR - GET 요청 실패 (VTTC0081R): 500 Server Error: Internal Server Error for url: https://openapivts.koreainvestment.com:29443/uapi/domestic-stock/v1/trading/inquire-daily-ccld?CANO=50193654&ACNT_PRDT_CD=01&INQR_STRT_DT=20260617&INQR_END_DT=20260617&SLL_BUY_DVSN_CD=00&PDNO=005930&CCLD_DVSN=01&INQR_DVSN=00&INQR_DVSN_3=00&EXCG_ID_DVSN_CD=KRX&CTX_AREA_FK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++&CTX_AREA_NK100=++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-06-17 16:29:02,087 - ERROR - 상세 에러: {"rt_cd":"1","msg1":"초당 거래건수를 초과하였습니다.","msg_cd":"EGW00201","message":"EGW00201"}
+2026-06-17 16:29:33,035 - INFO - 기존 유효한 토큰을 캐시에서 로드했습니다.
